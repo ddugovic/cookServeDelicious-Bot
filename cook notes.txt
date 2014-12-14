@@ -1,0 +1,54 @@
+
+1. Have both cycle through #1-4
+  
+   a) Finds illuminated number
+
+   b) Starts recipe search then beging cooking
+
+   c) Completes recipe and then goes back to cycling through #1-4
+
+   d) When I goes back to cycling it will start where it left off 
+
+   e) ex: #2 is illuminated, complete it then start at #3
+
+
+2. Cycling shouldn't cause a problem for cooking food that needs the number keys to be used
+since they are 2 seprate steps
+
+#throw in a sleep timer after COOKING anything so the outer loop doesent accidentaly click on the cooking item 
+
+
+3. Cooking method
+
+i. Can only cook 1 item at a time
+ii. cook multiple items causes the cooking_timer to go out of range
+iii. Also cooking multiples items causes many other problems
+
+once cooking begins it start looping through the 3 remaining numbers
+if it start cooking a 2nd item it starts loop through the 3 remaining
+because it deletes the previous number it had in memory. I need it save
+multiple cooking numbers
+
+#getto solution involves using multiple compare_imagesCooking() functions
+everytime I cooking function is called it calls a different compare_imagesCooking() function
+compare_imagesCooking1()
+compare_imagesCooking2()
+compare_imagesCooking3()
+compare_imagesCooking4()
+compare_imagesCooking5()
+compare_imagesCooking6()
+compare_imagesCooking7()
+compare_imagesCooking8()
+
+cooking_tracker = [i]
+
+compare_imagesCooking + i + ()
+
+
+
+since I can only cook x items at a time only x are needed
+
+I can use a global variable? or something to keep track of what function is next
+
+shit is going to be slow but it should at least work for now.
+
