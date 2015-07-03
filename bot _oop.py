@@ -2,14 +2,14 @@
 from PIL import Image, ImageGrab, ImageOps
 import os
 from numpy import *
-import math, operator
+import math
+import operator
 import time
 import ctypes
 import win32gui
 import win32com
 import win32com.client
 import sys
-# import pythoncom, pyHook
 import threading
 import copy
 
@@ -70,834 +70,161 @@ def ReleaseKey(hexKeyCode):
 
 
 def hitKey(key):
-    #keys need to be inputed as a string
-    #press and release key instantly
+    # keys need to be inputed as a string
+    # press and release key instantly
     key_dict = {'a':0x41, 'b':0x42, 'c':0x43, 'd':0x44, 'e':0x45, 'f':0x46, 'g':0x47, 'h':0x48,
                 'i':0x49, 'j':0x4A, 'k':0x4B, 'l':0x4C, 'm':0x4D, 'n':0x4E, 'o':0x4F, 'p':0x50,
                 'q':0x51, 'r':0x52, 's':0x53, 't':0x54, 'u':0x55, 'v':0x56, 'w':0x57, 'x':0x58,
                 'y':0x59, 'z':0x5A, 'up':0x26, 'down':0x28, 'right':0x27, 'left':0x25, 'enter':0x0D,
                 '1':0x31, '2':0x32, '3':0x33, '4':0x34}
     newKey = key_dict.get(key)
+    time.sleep(0.1)
     PressKey(newKey)
-    #time.sleep(0.01)
+    time.sleep(0.1)
     ReleaseKey(newKey)
 
 
 
 
 def grab():
-    #coordinates for text box where info is given about the order
+    # coordinates for text box where info is given about the order
     box = (453, 822, 1315, 979)
     img = ImageGrab.grab(box)
     img.save(os.getcwd() + '\\box0.png', 'PNG')
     return img
 
+# <---------------------Begin cooking recipes---------------------->
+class CookingRecipes(object):
+    """Used for most recipes. Uses default value of None
+    for recipes that don't require extra parameters
+
+    Supports:
+    Simple recipes
+    Recipes that require cooking time
+
+    Sleep Timer Test:
+    a = [1,2,3,4,5,6]
+    b = a
+    for i in range(1, len(a)+4, 2):
+    b.insert(i, 'sleep')
+    print b
 
 
-#<---------------------Begin cooking recipes--------------------------->
-def TheRedDog():
-    #sends an alt key then selects the game window
-    #I might need to set the the game ID to a variable since idk if it changes or if I can leave it hard coded
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('k')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def TheYellowDog():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('m')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def TheClassicCornDog():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('k')
-    time.sleep(0.1)
-    hitKey('m')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def TheSweetTwist():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('b')
-    time.sleep(0.1)
-    hitKey('c')
-    time.sleep(0.1)
-    hitKey('enter')
+    Eval not evaluating expressions properly
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    """
+    def __init__(self, keys, cooking_time=None, no_pos=None, sleep_time=5):
+        self.sleep_time = sleep_time
+        self.sendkeys = shell.SendKeys('%')
+        self.setforeground = win32gui.SetForegroundWindow(window)
+        # 1 less sleep timer than total of commands
+        # Set to a string to is doesn't run when its instanciated
+        # sleep_timers = ['time.sleep(sleep_time)' for i in len(keys)-1]
+        self.keys = ['hitKey(key)' for key in keys]
+        keys_sleep = self.keys
+        # the +4 to the length is needed to insert enough sleep timers
+        # +4 will need to be changed since the len of commands isn't always the same
+        for i in range(1, len(self.keys)+4, 2):
+            keys_sleep.insert(i, 'time.sleep(sleep_time)')
+        print keys_sleep
+        for i in keys_sleep:
+            print "Evaluating..."
+            eval(i)
+            print i
+        # self.keys = [hitKey(key) for key in keys]
+        self.cooking_time = cooking_time
+        self.no_pos = no_pos
+        if self.cooking_time is not None:
+            time.sleep(self.cooking_time)
+            index = cooking_numbers.index(no_pos)
+            hitKey(str(cooking_numbers[index]))
+            cooking_numbers.pop(index)
+            time.sleep(0.1)
 
 
-def TheButteryCurves():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('b')
-    time.sleep(0.1)
-    hitKey('enter')
 
-def CinnamonPretzel():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('c')
-    time.sleep(0.1)
-    hitKey('enter')
+class CustomRecipes0(object):
+    """Used mostly for recipes that require holding down keys"""
+    def __init__(self, press_key, sleep_time, release_key, keys):
+        self.sendkeys = shell.SendKeys('%')
+        self.setforeground = win32gui.SetForegroundWindow(window)
+        self.pressKey = PressKey(press_key)
+        self.sleep = time.sleep(sleep_time)
+        self.releaseKey = ReleaseKey(release_key)
+        self.keys = [hitKey(key) for key in keys]
 
-def TheDryTwister():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('enter')
-
-def TheSaltyKnot():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('s')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def TheClassicPretzel():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('s')
-    time.sleep(0.1)
-    hitKey('b')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def LargeColaIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def MediumColaIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def LargeDietIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def SmallColaIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def SmallGrapeIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def SmallDietIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def SmallColaNoIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def SmallWaterIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def SmallTeaIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def MediumGrapeIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def MediumDietIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def MediumColaNoIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def MediumWaterIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def MediumTeaIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def LargeGrapeIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def LargeColaNoIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def LargeWaterIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def LargeTeaIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def JumboColaIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def JumboGrapeIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def JumboDietIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def JumboColaNoIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def JumboWaterIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def JumboTeaIce():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def JumboColaIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def JumboGrapeIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def JumboDietIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def JumboColaNoIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def JumboWaterIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def JumboTeaIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def SmallColaIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def SmallGrapeIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def SmallDietIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def SmallColaNoIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def SmallWaterIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def SmallTeaIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def MediumColaIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def MediumGrapeIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def MediumDietIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def LargeColaIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def LargeGrapeIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def LargeDietIceFlavorBlast():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('i')
-    time.sleep(0.1)
-    hitKey('f')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('enter')
+class CookingThreading(object):
+    """Food is the Target and no_pos the args"""
+    def __init__(self, no_pos, food):
+        self.no_pos = no_pos
+        self.food = food
+        t = threading.Thread(target=self.food, args=(no_pos,))
+        t.start()
 
 
-def FastFries():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    #hold down button for 3 seconds to cook fries
-    PressKey(0x28)
-    time.sleep(3)
-    ReleaseKey(0x28)
-    time.sleep(0.1)
-    hitKey('p')
-    time.sleep(0.1)
-    hitKey('a')
-    time.sleep(0.1)
-    hitKey('enter')
 
-def LiteFastFries():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    PressKey(0x28)
-    time.sleep(3)
-    ReleaseKey(0x28)
-    time.sleep(0.1)
-    hitKey('p')
-    time.sleep(0.1)
-    hitKey('enter')
+TheRedDog = "CookingRecipes(['k', 'enter'])"
+TheYellowDog = "CookingRecipes(['m', 'enter'])"
+TheClassicCornDog = "CookingRecipes(['k', 'm', 'enter'])"
+TheSweetTwist = "CookingRecipes(['b', 'c', 'enter'])"
+TheButteryCurves = "CookingRecipes(['b', 'enter'])"
+CinnamonPretzel = "CookingRecipes(['c', 'enter'])"
+TheDryTwister = "CookingRecipes(['enter'])"
+TheSaltyKnot = "CookingRecipes(['s', 'enter'])"
+TheClassicPretzel = "CookingRecipes(['s', 'b', 'enter'])"
+LargeColaIce = "CookingRecipes(['up', 'up', 'i', 'down', 'enter'])"
+MediumColaIce = "CookingRecipes(['up', 'i', 'down', 'enter'])"
+LargeDietIce = "CookingRecipes(['right', 'right', 'right', 'right', 'up', 'up', 'i', 'down', 'enter'])"
+SmallColaIce = "CookingRecipes(['down', 'i', 'enter'])"
+SmallGrapeIce = "CookingRecipes(['right', 'right', 'i', 'down', 'enter'])"
+SmallDietIce = "CookingRecipes(['right', 'right', 'right', 'right', 'i', 'down', 'enter'])"
+SmallColaNoIce = "CookingRecipes(['down', 'enter'])"
+SmallWaterIce = "CookingRecipes(['right', 'right', 'right', 'i', 'down', 'enter'])"
+SmallTeaIce = "CookingRecipes(['right', 'i', 'down', 'enter'])"
+MediumGrapeIce = "CookingRecipes[(['right', 'right', 'up', 'i', 'down'])]"
+MediumDietIce = "CookingRecipes(['right', 'right', 'right', 'right', 'up', 'i', 'down', 'enter'])"
+MediumColaNoIce = "CookingRecipes(['up', 'down', 'enter'])"
+MediumWaterIce = "CookingRecipes(['right', 'right', 'right', 'up', 'i', 'down', 'enter'])"
+MediumTeaIce = "CookingRecipes(['right', 'up', 'i', 'down', 'enter'])"
+LargeGrapeIce = "CookingRecipes(['right', 'right', 'up', 'up', 'i', 'down', 'enter'])"
+LargeColaNoIce = "CookingRecipes(['up', 'up', 'down', 'enter'])"
+LargeWaterIce = "CookingRecipes(['right', 'right', 'right', 'up', 'up', 'i', 'down', 'enter'])"
+LargeTeaIce = "CookingRecipes(['right', 'up', 'up', 'i', 'down', 'enter'])"
+JumboColaIce = "CookingRecipes(['up', 'up', 'up', 'i', 'down', 'enter'])"
+JumboGrapeIce = "CookingRecipes(['right', 'right', 'up', 'up', 'up', 'i', 'down', 'enter'])"
+JumboDietIce = "CookingRecipes(['right', 'right', 'right', 'right', 'up', 'up', 'up', 'i', 'down', 'enter'])"
+JumboColaNoIce = "CookingRecipes(['up', 'up', 'up', 'down', 'enter'])"
+JumboWaterIce = "CookingRecipes(['right', 'right', 'right', 'up', 'up', 'up', 'i', 'down', 'enter'])"
+JumboTeaIce = "CookingRecipes(['right', 'up', 'up', 'up', 'i', 'down', 'enter'])"
+JumboColaIceFlavorBlast = "CookingRecipes(['up', 'up', 'up', 'i', 'f', 'down', 'enter'])"
+JumboGrapeIceFlavorBlast = "CookingRecipes(['right', 'right', 'up', 'up', 'up', 'i', 'f', 'down', 'enter'])"
+JumboDietIceFlavorBlast = "CookingRecipes(['right', 'right', 'right', 'right', 'up', 'up', 'up', 'i', 'f', 'down', 'enter'])"
+JumboColaNoIceFlavorBlast = "CookingRecipes(['up', 'up', 'up', 'f', 'down', 'enter'])"
+JumboWaterIceFlavorBlast = "CookingRecipes(['right', 'right', 'right', 'up', 'up', 'up', 'i', 'f', 'down', 'enter'])"
+JumboTeaIceFlavorBlast = "CookingRecipes(['right', 'up', 'up', 'up', 'i', 'f', 'down', 'enter'])"
+SmallColaIceFlavorBlast = "CookingRecipes(['i', 'f', 'down', 'enter'])"
+SmallGrapeIceFlavorBlast = "CookingRecipes(['right', 'right', 'i', 'f', 'down', 'enter'])"
+SmallDietIceFlavorBlast = "CookingRecipes(['right', 'right', 'right', 'right', 'i', 'f', 'down', 'enter'])"
+SmallColaNoIceFlavorBlast = "CookingRecipes(['f', 'down', 'enter'])"
+SmallWaterIceFlavorBlast = "CookingRecipes(['right', 'right', 'right', 'i', 'f', 'down', 'enter'])"
+SmallTeaIceFlavorBlast = "CookingRecipes(['right', 'i', 'f', 'down', 'enter'])"
+MediumColaIceFlavorBlast = "CookingRecipes(['up', 'i', 'f', 'down', 'enter'])"
+MediumGrapeIceFlavorBlast = "CookingRecipes(['right', 'right', 'up', 'i', 'f', 'down', 'enter'])"
+MediumDietIceFlavorBlast = "CookingRecipes(['right', 'right', 'right', 'right', 'up', 'i', 'f', 'down', 'enter'])"
+LargeColaIceFlavorBlast = "CookingRecipes(['up', 'up', 'i', 'f', 'down', 'enter'])"
+LargeGrapeIceFlavorBlast = "CookingRecipes(['right', 'right', 'up', 'up', 'i', 'f', 'down', 'enter'])"
+LargeDietIceFlavorBlast = "CookingRecipes(['right', 'right', 'right', 'right', 'up', 'up', 'i', 'f', 'down', 'enter'])"
+FastFries = "CustomRecipes0(0x28, 3, 0x28, ['p', 'a', 'enter'])"
+LiteFastFries = "CustomRecipes0(0x28, 3, 0x28, ['p', 'enter'])"
 
-def GreyTailFish():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('left')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('s')
-    time.sleep(0.1)
-    hitKey('enter')
-    cooking_timer.append(8.5)
-    compare_imagesCooking()
+# threading function that calls the actual cooking function
+GreyTailFish = lambda no_pos: CookingThreading(no_pos, GreyTailFishCook)
+GreyTailFishCook = lambda no_pos: CookingRecipes(['left', 'right', 'down', 's', 'enter'], 8.5, no_pos)
 
-    #use variable to find the #key that was previously selected
-    hitKey(str(cooking_numbers[0]))
-    del cooking_timer[:]
-
-def TheBrewsky():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    PressKey(0x28)
-    time.sleep(1.40)
-    ReleaseKey(0x28)
-    time.sleep(0.1)
-    hitKey('enter')
-
-def WorkTicketClean():
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('down')
-    time.sleep(0.1)
-    hitKey('s')
-
+TheBrewsky = "CustomRecipes0(0x28, 1.40, 0x28, ['enter'])"
+WorkTicketClean = "CookingRecipes(['down', 's'])"
+WorkTicketTrash = "CookingRecipes(['up', 'right', 'up', 'right', 'up', 'right', 'up', 'right', 'up', 'right', 's'])"
+'''
 def WorkTicketTrash():
     shell.SendKeys('%')
     win32gui.SetForegroundWindow(window)
@@ -922,7 +249,7 @@ def WorkTicketTrash():
     hitKey('right')
     time.sleep(0.3)
     hitKey('s')
-
+'''
 def WorkTicketRodents():
     shell.SendKeys('%')
     win32gui.SetForegroundWindow(window)
@@ -1017,25 +344,24 @@ def CitrusSteak():
     hitKey('c')
     time.sleep(0.1)
     hitKey('enter')
-    #instead of doing a sleep which prevents me from running any code
-    #I can just use a timer
-    #I replace sleep with a variable with the identical time
-    #I call my compare_imagesCook() function after I initialize the variable
-    #and I use it as a timer to keep track of the food once the timer runs out I exit the function/loop
-    #and continue in this function where I left off
+    # instead of doing a sleep which prevents me from running any code
+    # I can just use a timer
+    # I replace sleep with a variable with the identical time
+    # I call my compare_imagesCook() function after I initialize the variable
+    # and I use it as a timer to keep track of the food once the timer runs out I exit the function/loop
+    # and continue in this function where I left off
     cooking_timer.append(17.70)
-    #start main loop again so I can start serving customers
+    # start main loop again so I can start serving customers
     compare_imagesCooking()
-    #But ommit "number" variable so it doesen't click on the food that is cooking
-    #once timer ends cancel whatever is happening and return to this function which will then resume the original loop
-    #cooking_number gets deleted then compare image loop is repeated
+    # But ommit "number" variable so it doesn't click on the food that is cooking
+    # once timer ends cancel whatever is happening and return to this function which will then resume the original loop
+    # cooking_number gets deleted then compare image loop is repeated
     hitKey(str(cooking_numbers[0]))
     del cooking_timer[:]
 
-
-#----------------------End cooking recipes---------------------------->
-#associated recipe names with the image location for said recipe
-#also good for logging, it will print out whatever order its doing
+# ----------------------End cooking recipes---------------------------->
+# associated recipe names with the image location for said recipe
+# also good for logging, it will print out whatever order its doing
 recipe_dict = {'The Red Dog':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\recipes\\the red dog.png',
                'The Yellow Dog':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\recipes\\the yellow dog.png',
                'The Classic Corn dog':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\recipes\\the classic corn dog.png',
@@ -1097,7 +423,7 @@ recipe_dict = {'The Red Dog':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game 
                'Large Cola Ice Flavor Blast':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\recipes\large cola ice flavor blast.png',
                'Large Grape Ice Flavor Blast':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\recipes\large grape ice flavor blast.png',
                'Large Diet Ice Flavor Blast':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\recipes\large diet ice flavor blast.png'}
-#I took out the "()" from the functions otherwise when the dict was initialized all the functions would get called
+# I took out the "()" from the functions otherwise when the dict was initialized all the functions would get called
 cooking_dict = {'The Red Dog':TheRedDog, 'The Yellow Dog':TheYellowDog, 'The Classic Corn dog':TheClassicCornDog, 'The Sweet Twist':TheSweetTwist,
                 'The Buttery Curves':TheButteryCurves, 'Cinnamon Pretzel':CinnamonPretzel, 'The Dry Twister':TheDryTwister, 'The Salty Knot':TheSaltyKnot,
                 'The Classic Pretzel':TheClassicPretzel, 'Large Cola Ice':LargeColaIce, 'Medium Cola Ice':MediumColaIce, 'Large Diet Ice':LargeDietIce,
@@ -1116,6 +442,10 @@ cooking_dict = {'The Red Dog':TheRedDog, 'The Yellow Dog':TheYellowDog, 'The Cla
                 'Medium Diet Ice Flavor Blast':MediumDietIceFlavorBlast, 'Large Cola Ice Flavor Blast':LargeColaIceFlavorBlast, 'Large Grape Ice Flavor Blast':LargeGrapeIceFlavorBlast,
                 'Large Diet Ice Flavor Blast':LargeDietIceFlavorBlast}
 
+# recipes that require cooking time
+# these recipes are associated with lambda functions ONLY
+cooking_recipes = ['Classic Steak', 'Citrus Steak', 'Grey Fish Tail']
+
 numkeys = {'1':[65, 133, 114, 198], '2':[65, 221, 119, 284], '3':[66, 303, 115, 364], '4':[65, 391, 121, 450],
            '5':[64, 472, 115, 536], '6':[64, 556, 118, 619], '7':[66, 645, 117, 706], '8':[64, 728, 120, 791]}
 numImages = {'1':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\numkeys\\num1.png',
@@ -1127,11 +457,11 @@ numImages = {'1':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Coo
              '7':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\numkeys\\num7.png',
              '8':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\numkeys\\num8.png'}
 
-#Need global counter for cooking_numbers. Since I will be cooking
-#multiple things at the same time each one will be associated with a different number
-#the list will house multiple numbers each number represents a # 1 through 8 in game
-#my global counter number will also be 1-8 but will be used as an index of positions
-#i-e cooking_numbers[0] or cooking_numbers[3]
+# Need global counter for cooking_numbers. Since I will be cooking
+# multiple things at the same time each one will be associated with a different number
+# the list will house multiple numbers each number represents a # 1 through 8 in game
+# my global counter number will also be 1-8 but will be used as an index of positions
+# i-e cooking_numbers[0] or cooking_numbers[3]
 cooking_numbers = []
 
 cooking_timer = []
@@ -1180,48 +510,58 @@ def compare_imagesCooking():
                     #I could probable set this to 0
                     if rms < 5:
                         print recipe
-                        #used for cooking recipes
+                        # used for cooking recipes
                         cooking_numbers_new.append(number)
                         #search cooking_dict for the recipe then call that function which will execute the steps to the recipe and serve the customer
-                        cooking_dict[recipe]()
-                        del cooking_numbers_new[:] #used to clear list. otherwise it will get filed with numbers when I only want 1 in there at a time
+                        eval(cooking_dict[recipe])
+                        del cooking_numbers_new[:]  # used to clear list. otherwise it will get filed with numbers when I only want 1 in there at a time
 
 
 
 
 def compare_images():
-    #get for loop to stop searching after it finds the correct image to improve performance
     time.sleep(0.05)
-    for number in numkeys:
+    numkeys_new = numkeys.copy()
+    # numImages_new = numImages.copy()
+    # removes cooking numbers that are currently being cooked
+    numkeys_new = [x for x in numkeys_new if x not in cooking_numbers]
+    for number in numkeys_new:
         grab_numkeys(number)
-        #image taken from training set
+        # image taken from training set
         n1 = Image.open(numImages.get(number)).histogram()
-        #image to verify
+        # image to verify
         n2 = Image.open('C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\num.png').histogram()
         rms0 = math.sqrt(reduce(operator.add, map(lambda a,b: (a-b)**2, n1, n2))/len(n1))
-        print number, rms0
+        # print number, rms0
         if rms0 < 5:
-            hitKey(number)#click on selected number then screengrab recipe
+            hitKey(number)# click on selected number then screengrab recipe
             time.sleep(0.1)
-            grab()#grabs image for recipe
-            #possible match from recipe_dict
+            grab()# grabs image for recipe
+            # possible match from recipe_dict
             for recipe in recipe_dict:
                 h1 = Image.open(recipe_dict.get(recipe)).histogram()
-                #image to verify
+                # image to verify - is the screenshot it keeps taking
                 h2 = Image.open("C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\box0.png").histogram()
                 rms = math.sqrt(reduce(operator.add, map(lambda a,b: (a-b)**2, h1, h2))/len(h1))
-                print rms
+                # print rms
 
-                #I could probably set this to 0
+                # I could probably set this to 0
                 if rms < 5:
                     print recipe
-                    #used for cooking recipes
-                    cooking_numbers.append(number)
-                    #search cooking_dict for the recipe then call that function which will execute the steps to the recipe and serve the customer
-                    cooking_dict[recipe]()
-                    del cooking_numbers[:] #used to clear list. otherwise it will get filed with numbers when I only want 1 in there at a time
-                    #Maybe the break can optimize the search by ending the dictionary loop after it finds the right answer
-                    #break
+                    if recipe in cooking_recipes:   # I only want to append a cooking_number the recipes that require cooking time
+                        cooking_numbers.append(number)
+                        no_pos = number
+                        print "Current %s" % no_pos
+                        # search cooking_dict for the recipe then call that function which will execute the steps to the recipe and serve the customer
+                        # lambda function gets passed here
+                        cooking_dict[recipe](no_pos)
+                        # all cooking numbers are tracked within the list.
+
+                    else:
+                        # object in string gets passed here
+                        eval(cooking_dict[recipe])
+
+
 
 
 

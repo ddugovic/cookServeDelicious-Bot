@@ -863,7 +863,7 @@ def LiteFastFries():
     time.sleep(0.1)
     hitKey('enter')
 
-def GreyTailFish():
+def GreyTailFishCook(no_pos):
     shell.SendKeys('%')
     win32gui.SetForegroundWindow(window)
     hitKey('left')
@@ -875,12 +875,21 @@ def GreyTailFish():
     hitKey('s')
     time.sleep(0.1)
     hitKey('enter')
-    cooking_timer.append(8.5)
-    compare_imagesCooking()
+    time.sleep(8.5)
+    print 'GreyTailFish number position %s' % no_pos
+    print cooking_numbers
+    index = cooking_numbers.index(no_pos)
+    print index
+    print cooking_numbers[index]
+    hitKey(str(cooking_numbers[index]))
+    cooking_numbers.pop(index)
+    time.sleep(0.1)
 
-    #use variable to find the #key that was previously selected
-    hitKey(str(cooking_numbers[0]))
-    del cooking_timer[:]
+
+def GreyTailFish(no_pos):
+    t = threading.Thread(target=GreyTailFishCook, args=(no_pos,))
+    t.start()
+
 
 def TheBrewsky():
     shell.SendKeys('%')
@@ -897,6 +906,7 @@ def WorkTicketClean():
     hitKey('down')
     time.sleep(0.1)
     hitKey('s')
+
 
 def WorkTicketTrash():
     shell.SendKeys('%')
@@ -988,7 +998,7 @@ def WorkTicketDishes():
     hitKey('up')
     time.sleep(0.1)
 
-def ClassicSteak():
+def ClassicSteakCook(no_pos):
     shell.SendKeys('%')
     win32gui.SetForegroundWindow(window)
     hitKey('s')
@@ -1000,12 +1010,24 @@ def ClassicSteak():
     hitKey('j')
     time.sleep(0.1)
     hitKey('enter')
-    cooking_timer.append(17.70)
-    compare_imagesCooking()
-    hitKey(str(cooking_numbers[0]))
-    del cooking_timer[:]
+    time.sleep(17.70)
+    print 'ClassicSteak number position %s' % no_pos
+    print cooking_numbers
+    index = cooking_numbers.index(no_pos)
+    print index
+    print cooking_numbers[index]
+    hitKey(str(cooking_numbers[index]))
+    cooking_numbers.pop(index)
+    time.sleep(0.1)
 
-def CitrusSteak():
+
+def ClassicSteak(no_pos):
+    t = threading.Thread(target=ClassicSteakCook, args=(no_pos,))
+    t.start()
+
+
+
+def CitrusSteakCook(no_pos):
     shell.SendKeys('%')
     win32gui.SetForegroundWindow(window)
     hitKey('s')
@@ -1017,20 +1039,23 @@ def CitrusSteak():
     hitKey('c')
     time.sleep(0.1)
     hitKey('enter')
-    #instead of doing a sleep which prevents me from running any code
-    #I can just use a timer
-    #I replace sleep with a variable with the identical time
-    #I call my compare_imagesCook() function after I initialize the variable
-    #and I use it as a timer to keep track of the food once the timer runs out I exit the function/loop
-    #and continue in this function where I left off
-    cooking_timer.append(17.70)
-    #start main loop again so I can start serving customers
-    compare_imagesCooking()
-    #But ommit "number" variable so it doesen't click on the food that is cooking
-    #once timer ends cancel whatever is happening and return to this function which will then resume the original loop
-    #cooking_number gets deleted then compare image loop is repeated
-    hitKey(str(cooking_numbers[0]))
-    del cooking_timer[:]
+    time.sleep(17.70)
+    print 'CitrusSteak number position %s' % no_pos
+    print cooking_numbers
+
+    print index
+    print cooking_numbers[index]
+    hitKey(str(cooking_numbers[index]))
+    cooking_numbers.pop(index)
+    time.sleep(0.1)
+    # Removes cooking# when we are done using it so the compare_image function can loop over that number again.
+
+
+
+def CitrusSteak(no_pos):
+    t = threading.Thread(target=CitrusSteakCook, args=(no_pos,))
+    t.start()
+
 
 
 #----------------------End cooking recipes---------------------------->
@@ -1097,7 +1122,7 @@ recipe_dict = {'The Red Dog':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game 
                'Large Cola Ice Flavor Blast':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\recipes\large cola ice flavor blast.png',
                'Large Grape Ice Flavor Blast':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\recipes\large grape ice flavor blast.png',
                'Large Diet Ice Flavor Blast':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\recipes\large diet ice flavor blast.png'}
-#I took out the "()" from the functions otherwise when the dict was initialized all the functions would get called
+# I took out the "()" from the functions otherwise when the dict was initialized all the functions would get called
 cooking_dict = {'The Red Dog':TheRedDog, 'The Yellow Dog':TheYellowDog, 'The Classic Corn dog':TheClassicCornDog, 'The Sweet Twist':TheSweetTwist,
                 'The Buttery Curves':TheButteryCurves, 'Cinnamon Pretzel':CinnamonPretzel, 'The Dry Twister':TheDryTwister, 'The Salty Knot':TheSaltyKnot,
                 'The Classic Pretzel':TheClassicPretzel, 'Large Cola Ice':LargeColaIce, 'Medium Cola Ice':MediumColaIce, 'Large Diet Ice':LargeDietIce,
@@ -1116,6 +1141,8 @@ cooking_dict = {'The Red Dog':TheRedDog, 'The Yellow Dog':TheYellowDog, 'The Cla
                 'Medium Diet Ice Flavor Blast':MediumDietIceFlavorBlast, 'Large Cola Ice Flavor Blast':LargeColaIceFlavorBlast, 'Large Grape Ice Flavor Blast':LargeGrapeIceFlavorBlast,
                 'Large Diet Ice Flavor Blast':LargeDietIceFlavorBlast}
 
+cooking_recipes = ['Classic Steak', 'Citrus Steak', 'Grey Fish Tail']
+
 numkeys = {'1':[65, 133, 114, 198], '2':[65, 221, 119, 284], '3':[66, 303, 115, 364], '4':[65, 391, 121, 450],
            '5':[64, 472, 115, 536], '6':[64, 556, 118, 619], '7':[66, 645, 117, 706], '8':[64, 728, 120, 791]}
 numImages = {'1':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\numkeys\\num1.png',
@@ -1127,11 +1154,10 @@ numImages = {'1':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Coo
              '7':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\numkeys\\num7.png',
              '8':'C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\numkeys\\num8.png'}
 
-#Need global counter for cooking_numbers. Since I will be cooking
-#multiple things at the same time each one will be associated with a different number
-#the list will house multiple numbers each number represents a # 1 through 8 in game
-#my global counter number will also be 1-8 but will be used as an index of positions
-#i-e cooking_numbers[0] or cooking_numbers[3]
+# Need global counter for cooking_numbers. Since I will be cooking
+# multiple things at the same time each one will be associated with a different number
+# the list will house multiple numbers each number represents a # 1 through 8 in game
+# my global counter number will also be 1-8 but will be used as an index of positions
 cooking_numbers = []
 
 cooking_timer = []
@@ -1177,7 +1203,7 @@ def compare_imagesCooking():
                     rms = math.sqrt(reduce(operator.add, map(lambda a,b: (a-b)**2, h1, h2))/len(h1))
                     print rms
 
-                    #I could probable set this to 0
+                    #I could probably set this to 0
                     if rms < 5:
                         print recipe
                         #used for cooking recipes
@@ -1190,40 +1216,44 @@ def compare_imagesCooking():
 
 
 def compare_images():
-    #get for loop to stop searching after it finds the correct image to improve performance
     time.sleep(0.05)
-    for number in numkeys:
+    numkeys_new = numkeys.copy()
+    # numImages_new = numImages.copy()
+    # removes cooking numbers that are currently being cooked
+    numkeys_new = [x for x in numkeys_new if x not in cooking_numbers]
+    for number in numkeys_new:
         grab_numkeys(number)
-        #image taken from training set
+        # image taken from training set
         n1 = Image.open(numImages.get(number)).histogram()
-        #image to verify
+        # image to verify
         n2 = Image.open('C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\num.png').histogram()
         rms0 = math.sqrt(reduce(operator.add, map(lambda a,b: (a-b)**2, n1, n2))/len(n1))
-        print number, rms0
+        # print number, rms0
         if rms0 < 5:
-            hitKey(number)#click on selected number then screengrab recipe
+            hitKey(number)# click on selected number then screengrab recipe
             time.sleep(0.1)
-            grab()#grabs image for recipe
-            #possible match from recipe_dict
+            grab()# grabs image for recipe
+            # possible match from recipe_dict
             for recipe in recipe_dict:
                 h1 = Image.open(recipe_dict.get(recipe)).histogram()
-                #image to verify
+                # image to verify - is the screenshot it keeps taking
                 h2 = Image.open("C:\Users\yoi\Documents\MEGA\Codding_projects\Game cheating\Cook, time, delicious\\box0.png").histogram()
                 rms = math.sqrt(reduce(operator.add, map(lambda a,b: (a-b)**2, h1, h2))/len(h1))
-                print rms
+                # print rms
 
-                #I could probably set this to 0
+                # I could probably set this to 0
                 if rms < 5:
                     print recipe
-                    #used for cooking recipes
-                    cooking_numbers.append(number)
-                    #search cooking_dict for the recipe then call that function which will execute the steps to the recipe and serve the customer
-                    cooking_dict[recipe]()
-                    del cooking_numbers[:] #used to clear list. otherwise it will get filed with numbers when I only want 1 in there at a time
-                    #Maybe the break can optimize the search by ending the dictionary loop after it finds the right answer
-                    #break
-
-
+                    if recipe in cooking_recipes:   # I only want to append a cooking_number the recipes that require cooking time
+                        cooking_numbers.append(number)
+                        no_pos = number
+                        print "Current %s" % no_pos
+                        # search cooking_dict for the recipe then call that function which will execute the steps to the recipe and serve the customer
+                        cooking_dict[recipe](no_pos)
+                        # all cooking numbers are tracked within the list.
+                    else:
+                        cooking_dict[recipe]()
+                        # calls the recipe
 
 
 
@@ -1235,7 +1265,4 @@ while 1:
     compare_images()
 
 
-
-
-
-#grab()
+# grab()
