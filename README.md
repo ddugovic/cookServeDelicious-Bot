@@ -16,10 +16,13 @@ Requirements to test bot:
 - 1920 x 1080 resolution fullscreen windowed mode on high settings
 - you need to modify all the hard coded directories I use for the images
 - windows OS (I use a few windows only librairies)
-- Once you changed all the hard coded image locations simply run bot.py (botv1.5.py will not work)
+- Once you changed all the hard coded image locations simply run bot_threading.py (bot_oop.py is completed yet)
 
 
 # Video of the bot in action
 https://vid.me/iquy
 
 Tested on python 2.7 on windows 7
+
+#TODO
+merge bot_oop.py with bot_threading.py
