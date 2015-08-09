@@ -19,6 +19,7 @@ Requirements to test bot:
 - Once you changed all the hard coded image locations simply run bot.py (botv1.5.py will not work)
 
 
-
+# Video of the bot in action
+https://vid.me/iquy
 
 Tested on python 2.7 on windows 7
