@@ -1,5 +1,6 @@
 
 from PIL import Image, ImageGrab, ImageOps
+import re
 import os
 from pytesser import *
 from numpy import *
@@ -164,6 +165,72 @@ def TheClassicPretzel():
     hitKey('s')
     time.sleep(0.1)
     hitKey('b')
+    time.sleep(0.1)
+    hitKey('enter')
+
+def PlainVanilla():
+    shell.SendKeys('%')
+    win32gui.SetForegroundWindow(window)
+    hitKey('v')
+    time.sleep(0.1)
+    hitKey('v')
+    time.sleep(0.1)
+    hitKey('v')
+    time.sleep(0.1)
+    hitKey('enter')
+
+def PlainChocolate():
+    shell.SendKeys('%')
+    win32gui.SetForegroundWindow(window)
+    hitKey('c')
+    time.sleep(0.1)
+    hitKey('c')
+    time.sleep(0.1)
+    hitKey('c')
+    time.sleep(0.1)
+    hitKey('enter')
+
+def VanillaAndChocolate():
+    shell.SendKeys('%')
+    win32gui.SetForegroundWindow(window)
+    hitKey('v')
+    time.sleep(0.1)
+    hitKey('c')
+    time.sleep(0.1)
+    hitKey('enter')
+
+def YinAndYang():
+    shell.SendKeys('%')
+    win32gui.SetForegroundWindow(window)
+    hitKey('v')
+    time.sleep(0.1)
+    hitKey('c')
+    time.sleep(0.1)
+    hitKey('h')
+    time.sleep(0.1)
+    hitKey('p')
+    time.sleep(0.1)
+    hitKey('enter')
+
+def CherryVanilla():
+    shell.SendKeys('%')
+    win32gui.SetForegroundWindow(window)
+    hitKey('v')
+    time.sleep(0.1)
+    hitKey('v')
+    time.sleep(0.1)
+    hitKey('h')
+    time.sleep(0.1)
+    hitKey('enter')
+
+def ChocolateSprinkles():
+    shell.SendKeys('%')
+    win32gui.SetForegroundWindow(window)
+    hitKey('c')
+    time.sleep(0.1)
+    hitKey('c')
+    time.sleep(0.1)
+    hitKey('p')
     time.sleep(0.1)
     hitKey('enter')
 
@@ -948,13 +1015,12 @@ def TheBrewsky():
     hitKey('enter')
 
 def WorkTicketClean():
-    #WorkTicketDishes()
-    #WorkTicketTrash()
     shell.SendKeys('%')
     win32gui.SetForegroundWindow(window)
     hitKey('down')
     time.sleep(0.1)
     hitKey('s')
+    time.sleep(0.1)
 
 def WorkTicketTrash():
     shell.SendKeys('%')
@@ -967,23 +1033,14 @@ def WorkTicketTrash():
     time.sleep(0.3)
     hitKey('right')
     time.sleep(0.3)
-    #hitKey('up')
-    #time.sleep(0.3)
-    #hitKey('right')
-    #time.sleep(0.3)
-    #hitKey('up')
-    #time.sleep(0.3)
-    #hitKey('right')
-    #time.sleep(0.3)
-    #hitKey('up')
-    #time.sleep(0.3)
-    #hitKey('right')
-    #time.sleep(0.3)
     hitKey('s')
+    time.sleep(0.1)
+    hitKey('up')
+    time.sleep(0.3)
+    hitKey('right')
+    time.sleep(0.3)
 
 def WorkTicketRodents():
-    #WorkTicketDishes()
-    #WorkTicketTrash()
     shell.SendKeys('%')
     win32gui.SetForegroundWindow(window)
     hitKey('right')
@@ -993,6 +1050,7 @@ def WorkTicketRodents():
     hitKey('c')
     time.sleep(0.1)
     hitKey('s')
+    time.sleep(0.1)
 
 def WorkTicketDishes():
     shell.SendKeys('%')
@@ -1027,26 +1085,117 @@ def WorkTicketDishes():
     time.sleep(0.1)
     hitKey('up')
     time.sleep(0.1)
-    hitKey('left')
+
+def Coffee(text):
+    shell.SendKeys('%')
+    win32gui.SetForegroundWindow(window)
+    hitKey('down')
     time.sleep(0.1)
-    hitKey('right')
+    if "CREAMER" in text:
+        hitKey('c')
+        time.sleep(0.1)
+    if "SUGARS" in text:
+        m = re.search('([2-5]) SUGARS', text.replace("Z SUGARS", "2 SUGARS").replace("1 SUGARS", "4 SUGARS"))
+        sugars = int(m.group(1))
+        for x in xrange(0, sugars):
+            hitKey('s')
+            time.sleep(0.1)
+    elif "SUGAR" in text:
+        hitKey('s')
+        time.sleep(0.1)
+    hitKey('enter')
     time.sleep(0.1)
-    hitKey('left')
+
+def Snack(keys):
+    shell.SendKeys('%')
+    win32gui.SetForegroundWindow(window)
+    for key in list(keys):
+        hitKey(key)
+        time.sleep(0.1)
+    hitKey('enter')
     time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
-    hitKey('left')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('left')
-    time.sleep(0.1)
-    hitKey('right')
-    time.sleep(0.1)
-    hitKey('up')
-    time.sleep(0.1)
+
+def Kabob(keys):
+    Snack(keys)
+    cooking_timer.append(7.0)
+    compare_imagesCooking()
+    hitKey(str(cooking_numbers[0]))
+    del cooking_timer[:]
+
+def Kabobber():
+    Kabob('tgrtmkmk')
+
+def KabobChicken():
+    Kabob('tktkgkrk')
+
+def KabobClassic():
+    Kabob('mtgrtgrk')
+
+def KabobMeaty():
+    Kabob('mkmtgkmk')
+
+def KabobPepper():
+    Kabob('grgrgrtm')
+
+def KabobRed():
+    Kabob('trtrtrgm')
+
+def SushiEbiSpecial():
+    Snack('eeeeertu')
+
+def SushiMixedDelicious():
+    Snack('eerrrttu')
+
+def SushiOceanPlate():
+    Snack('eeerrtuu')
+
+def SushiRoeSpecial():
+    Snack('eeerrrrt')
+
+def SushiStandardSampler():
+    Snack('eerrttuu')
+
+def SushiSeaSpirit():
+    Snack('errtttuu')
+
+def SushiToroSpecial():
+    Snack('ertttttu')
+
+def SushiTunaPlatter():
+    Snack('ertuuuuu')
+
+def SaladHouse():
+    Snack('rcb')
+
+def SaladCheesyLeaves():
+    Snack('rc')
+
+def SaladPepperRanch():
+    Snack('rco')
+
+def SaladTheDryGreens():
+    Snack('g')
+
+def SaladTheDryDeluxe():
+    Snack('mg')
+
+def SaladTheManhattan():
+    Snack('rcbomg')
+
+def SaladTheMix():
+    Snack('rcbo')
+
+def SaladTomatoRanch():
+    Snack('rcm')
+
+def SaladTheBigSalad():
+    Snack('cg')
+
+def SaladCheesyPeppers():
+    Snack('co')
+
+def SaladVerde():
+    Snack('rg')
 
 def ClassicSteak():
     shell.SendKeys('%')
@@ -1094,12 +1243,20 @@ def CitrusSteak():
 
 def ThumbsUp():
     hitKey('t')
+    time.sleep(0.1)
 
 
 #----------------------End cooking recipes---------------------------->
-cooking_list = ['The Red Dog',
+cooking_list = ['The Gerstmann',
+                'The Red Dog',
                 'The Yellow Dog',
                 'The Classic Corn Dog',
+                'Plain Vanilla',
+                'Plain Chocolate',
+                'Vanilla and Chocolate',
+                'The Yin and Yang',
+                'Cherry Vanilla',
+                'Chocolate Sprinkles',
                 'The Sweet Twist',
                 'The Buttery Curves',
                 'Cinnamon Pretzel',
@@ -1109,6 +1266,7 @@ cooking_list = ['The Red Dog',
                 'Golden Fried Chicken',
                 'Delicious Lite Sopapillas',
                 'Delicious Sopapillas',
+                'Lite Fast Fries',
                 'Lite Fries',
                 'Mix Fries',
                 'Sea Fries',
@@ -1121,6 +1279,33 @@ cooking_list = ['The Red Dog',
                 'Work Ticket (Dishes)',
                 'Work Ticket (Rodents)',
                 'Work Ticket (Trash)',
+                'Coffee',
+                'Chicken Kabob',
+                'Kabobber',
+                'Meaty Kabob',
+                'Pepper Kabob',
+                'Red Kabob',
+                'Kabob',
+                'Cheesy Leaves',
+                'Pepper Ranch',
+                'The Dry Greens',
+                'The Dry Deluxe',
+                'Kids Delight',
+                'The Manhattan',
+                'The Mix',
+                'Tomato Ranch',
+                'The Big Salad',
+                'Cheesy Peppers',
+                'Salad Verde',
+                'Salad',
+                'Ebi Special',
+                'Mixed Delicious',
+                'Ocean Plate',
+                'Roe Special',
+                'Sea Spirit',
+                'Standard Sampler',
+                'Toro Special',
+                'Tuna Platter',
                 'Classic Steak',
                 'Citrus Steak',
                 'Jumbo Cola No Ice w/Flavor Blast',
@@ -1169,9 +1354,16 @@ cooking_list = ['The Red Dog',
 
 #also good for logging, it will print out whatever order its doing
 #I took out the "()" from the functions otherwise when the dict was initialized all the functions would get called
-cooking_dict = {'The Red Dog':TheRedDog,
+cooking_dict = {'The Gerstmann':TheRedDog,
+                'The Red Dog':TheRedDog,
                 'The Yellow Dog':TheYellowDog,
                 'The Classic Corn Dog':TheClassicCornDog,
+                'Plain Vanilla':PlainVanilla,
+                'Plain Chocolate':PlainChocolate,
+                'Vanilla and Chocolate':VanillaAndChocolate,
+                'The Yin and Yang':YinAndYang,
+                'Cherry Vanilla':CherryVanilla,
+                'Chocolate Sprinkles':ChocolateSprinkles,
                 'The Sweet Twist':TheSweetTwist,
                 'The Buttery Curves':TheButteryCurves,
                 'Cinnamon Pretzel':CinnamonPretzel,
@@ -1181,6 +1373,7 @@ cooking_dict = {'The Red Dog':TheRedDog,
                 'Golden Fried Chicken':GoldenFriedChicken,
                 'Delicious Lite Sopapillas':LiteFries,
                 'Delicious Sopapillas':SweetFries,
+                'Lite Fast Fries':LiteFries,
                 'Lite Fries':LiteFries,
                 'Mix Fries':MixFries,
                 'Sea Fries':SeaFries,
@@ -1193,6 +1386,33 @@ cooking_dict = {'The Red Dog':TheRedDog,
                 'Work Ticket (Dishes)':WorkTicketDishes,
                 'Work Ticket (Rodents)':WorkTicketRodents,
                 'Work Ticket (Trash)':WorkTicketTrash,
+                'Coffee':Coffee,
+                'Chicken Kabob':KabobChicken,
+                'Kabobber':Kabobber,
+                'Meaty Kabob':KabobMeaty,
+                'Pepper Kabob':KabobPepper,
+                'Red Kabob':KabobRed,
+                'Kabob':KabobClassic,
+                'Cheesy Leaves':SaladCheesyLeaves,
+                'Pepper Ranch':SaladPepperRanch,
+                'The Dry Greens':SaladTheDryGreens,
+                'The Dry Deluxe':SaladTheDryDeluxe,
+                'Kids Delight':SaladCheesyLeaves,
+                'The Manhattan':SaladTheManhattan,
+                'The Mix':SaladTheMix,
+                'Tomato Ranch':SaladTomatoRanch,
+                'The Big Salad':SaladTheBigSalad,
+                'Cheesy Peppers':SaladCheesyPeppers,
+                'Salad Verde':SaladVerde,
+                'Salad':SaladHouse,
+                'Ebi Special':SushiEbiSpecial,
+                'Mixed Delicious':SushiMixedDelicious,
+                'Ocean Plate':SushiOceanPlate,
+                'Roe Special':SushiRoeSpecial,
+                'Sea Spirit':SushiSeaSpirit,
+                'Standard Sampler':SushiStandardSampler,
+                'Toro Special':SushiToroSpecial,
+                'Tuna Platter':SushiTunaPlatter,
                 'Classic Steak':ClassicSteak,
                 'Citrus Steak':CitrusSteak,
                 'Jumbo Cola No Ice w/Flavor Blast':JumboColaNoIceFlavorBlast,
@@ -1320,7 +1540,6 @@ def compare_imagesCooking():
 
 
 def compare_images():
-    #get for loop to stop searching after it finds the correct image to improve performance
     time.sleep(0.05)
     for number in numkeys:
         grab_numkeys(number)
@@ -1348,16 +1567,21 @@ def compare_images():
             for recipe in cooking_list:
                 if recipe.upper().replace(" ICE","") in text.replace(" ICE",""):
                     print recipe
-            for recipe in cooking_list:
-                if recipe.upper().replace(" ICE","") in text.replace(" ICE",""):
-                    print recipe
-                    #used for cooking recipes
-                    cooking_numbers.append(number)
-                    #search cooking_dict for the recipe then call that function which will execute the steps to the recipe and serve the customer
-                    cooking_dict[recipe]()
-                    del cooking_numbers[:] #used to clear list. otherwise it will get filed with numbers when I only want 1 in there at a time
-                    #Maybe the break can optimize the search by ending the dictionary loop after it finds the right answer
-                    break
+            if "COFFEE" in text or "FULLY LOADED" in text:
+                Coffee(text)
+                #Maybe the break can optimize the search by ending the dictionary loop after it finds the right answer
+            else:
+                for recipe in cooking_list:
+                    if recipe.upper().replace(" ICE","") in text.replace(" ICE",""):
+                        print recipe
+                        #used for cooking recipes
+                        cooking_numbers.append(number)
+                        #search cooking_dict for the recipe then call that function which will execute the steps to the recipe and serve the customer
+                        cooking_dict[recipe]()
+                        del cooking_numbers[:] #used to clear list. otherwise it will get filed with numbers when I only want 1 in there at a time
+                        #Maybe the break can optimize the search by ending the dictionary loop after it finds the right answer
+                        break
+    return
 
 time.sleep(1)
 
