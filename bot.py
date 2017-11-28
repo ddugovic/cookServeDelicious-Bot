@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 from PIL import Image, ImageGrab, ImageOps
 import re
 import os
@@ -162,71 +162,64 @@ def TheClassicPretzel(text):
     time.sleep(0.1)
     hitKey('enter')
 
-def PlainVanilla(text):
+def IceCream(text):
     shell.SendKeys('%')
     win32gui.SetForegroundWindow(window)
-    hitKey('v')
-    time.sleep(0.1)
-    hitKey('v')
-    time.sleep(0.1)
-    hitKey('v')
-    time.sleep(0.1)
+    if "VANILLA" in text:
+        if "TWO" in text:
+            hitKey('v')
+            time.sleep(0.1)
+        elif "THREE" in text:
+            hitKey('v')
+            time.sleep(0.1)
+            hitKey('v')
+            time.sleep(0.1)
+        hitKey('v')
+        time.sleep(0.1)
+    if "MINT" in text:
+        if "TWO" in text:
+            hitKey('m')
+            time.sleep(0.1)
+        elif "THREE" in text:
+            hitKey('m')
+            time.sleep(0.1)
+            hitKey('m')
+            time.sleep(0.1)
+        hitKey('m')
+        time.sleep(0.1)
+    elif "CHOCOLATE" in text:
+        if "TWO" in text:
+            hitKey('c')
+            time.sleep(0.1)
+        elif "THREE" in text:
+            hitKey('c')
+            time.sleep(0.1)
+            hitKey('c')
+            time.sleep(0.1)
+        hitKey('c')
+        time.sleep(0.1)
+    if "CHERRY" in text.replace("(HERRG", "CHERRY"):
+        hitKey('h')
+        time.sleep(0.1)
+    if "SPRINKLES" in text:
+        hitKey('p')
+        time.sleep(0.1)
+    if "WHIP" in text:
+        hitKey('w')
+        time.sleep(0.1)
+    if "NUTTY" in text:
+        hitKey('n')
+        time.sleep(0.1)
     hitKey('enter')
 
-def PlainChocolate(text):
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('c')
-    time.sleep(0.1)
-    hitKey('c')
-    time.sleep(0.1)
-    hitKey('c')
-    time.sleep(0.1)
-    hitKey('enter')
+def IceCreamMintyDeluxe(text):
+    Snack('mmhwn')
 
-def VanillaAndChocolate(text):
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('v')
-    time.sleep(0.1)
-    hitKey('c')
-    time.sleep(0.1)
-    hitKey('enter')
+def IceCreamTrio(text):
+    Snack('vcm')
 
-def YinAndYang(text):
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('v')
-    time.sleep(0.1)
-    hitKey('c')
-    time.sleep(0.1)
-    hitKey('h')
-    time.sleep(0.1)
-    hitKey('p')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def CherryVanilla(text):
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('v')
-    time.sleep(0.1)
-    hitKey('v')
-    time.sleep(0.1)
-    hitKey('h')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def ChocolateSprinkles(text):
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    hitKey('c')
-    time.sleep(0.1)
-    hitKey('c')
-    time.sleep(0.1)
-    hitKey('p')
-    time.sleep(0.1)
-    hitKey('enter')
+def IceCreamYinAndYang(text):
+    Snack('vchp')
 
 def LargeColaIce(text):
     shell.SendKeys('%')
@@ -905,7 +898,7 @@ def GoldenFriedChicken(text):
     shell.SendKeys('%')
     win32gui.SetForegroundWindow(window)
     PressKey(0x28)
-    time.sleep(4)
+    time.sleep(3.6)
     ReleaseKey(0x28)
     time.sleep(0.1)
     hitKey('p')
@@ -917,24 +910,31 @@ def Fries(text):
     win32gui.SetForegroundWindow(window)
     #hold down button for 3 seconds to cook fries
     PressKey(0x28)
-    time.sleep(3)
+    if "HASH" in text:
+        time.sleep(2)
+        if not "LITE" in text:
+            text = "SUGAR"
+    elif "SOPAPILLAS" in text:
+        time.sleep(2.8)
+        if "LITE" in text:
+            text = "LITE"
+    else:
+        if "SWEETEST" in text:
+            text += "LITE"
+        time.sleep(2.8)
     ReleaseKey(0x28)
     time.sleep(0.1)
     hitKey('p')
     time.sleep(0.1)
-    hitKey('a')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def LiteFries(text):
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    PressKey(0x28)
-    time.sleep(3)
-    ReleaseKey(0x28)
-    time.sleep(0.1)
-    hitKey('p')
-    time.sleep(0.1)
+    if "SEA" in text:
+        hitKey('e')
+        time.sleep(0.1)
+    elif not "LITE" in text:
+        hitKey('a')
+        time.sleep(0.1)
+    if "SUGAR" in text:
+        hitKey('s')
+        time.sleep(0.1)
     hitKey('enter')
 
 def MixFries(text):
@@ -942,39 +942,12 @@ def MixFries(text):
     win32gui.SetForegroundWindow(window)
     #hold down button for 3 seconds to cook fries
     PressKey(0x28)
-    time.sleep(3)
+    time.sleep(2.8)
     ReleaseKey(0x28)
     time.sleep(0.1)
     hitKey('p')
     time.sleep(0.1)
     hitKey('a')
-    time.sleep(0.1)
-    hitKey('s')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def SeaFries(text):
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    PressKey(0x28)
-    time.sleep(3)
-    ReleaseKey(0x28)
-    time.sleep(0.1)
-    hitKey('p')
-    time.sleep(0.1)
-    hitKey('e')
-    time.sleep(0.1)
-    hitKey('enter')
-
-def SweetFries(text):
-    shell.SendKeys('%')
-    win32gui.SetForegroundWindow(window)
-    #hold down button for 3 seconds to cook fries
-    PressKey(0x28)
-    time.sleep(3)
-    ReleaseKey(0x28)
-    time.sleep(0.1)
-    hitKey('p')
     time.sleep(0.1)
     hitKey('s')
     time.sleep(0.1)
@@ -1089,7 +1062,7 @@ def Coffee(text):
         hitKey('c')
         time.sleep(0.1)
     if "SUGARS" in text:
-        m = re.search('([2-5]) SUGARS', text.replace("Z SUGARS", "2 SUGARS").replace("1 SUGARS", "4 SUGARS"))
+        m = re.search('([2-5])SUGARS', text.replace("ZSUGARS", "2SUGARS")+"4SUGARS")
         sugars = int(m.group(1))
         for x in xrange(0, sugars):
             hitKey('s')
@@ -1097,6 +1070,23 @@ def Coffee(text):
     elif "SUGAR" in text:
         hitKey('s')
         time.sleep(0.1)
+    hitKey('enter')
+    time.sleep(0.1)
+
+def Wine(text):
+    shell.SendKeys('%')
+    win32gui.SetForegroundWindow(window)
+    if "MARZU" in text:
+        hitKey('w')
+        time.sleep(0.1)
+    if "SERPENT" in text:
+        hitKey('w')
+        time.sleep(0.1)
+        hitKey('w')
+        time.sleep(0.1)
+    for x in xrange(0, 25):
+        hitKey('up')
+        time.sleep(0.05)
     hitKey('enter')
     time.sleep(0.1)
 
@@ -1158,38 +1148,37 @@ def SushiToroSpecial(text):
 def SushiTunaPlatter(text):
     Snack('ertuuuuu')
 
-def SaladHouse(text):
-    Snack('rcb')
-
-def SaladCheesyLeaves(text):
-    Snack('rc')
-
-def SaladPepperRanch(text):
-    Snack('rco')
-
-def SaladTheDryGreens(text):
-    Snack('g')
-
-def SaladTheDryDeluxe(text):
-    Snack('mg')
+def Salad(text):
+    shell.SendKeys('%')
+    win32gui.SetForegroundWindow(window)
+    if "RANCH" in text:
+        hitKey('r')
+        time.sleep(0.1)
+    if "THOUSAND" in text:
+        hitKey('t')
+        time.sleep(0.1)
+    if "CHEESE" in text.replace("(BEE", "CHEESE"):
+        hitKey('c')
+        time.sleep(0.1)
+    if "EVERYTHING" in text.replace("EVERGFHING", "EVERYTHING"):
+        text = "BACON ONIONS MUSHROOMS GREENS"
+    if "BACON" in text:
+        hitKey('b')
+        time.sleep(0.1)
+    if "ONIONS" in text:
+        hitKey('o')
+        time.sleep(0.1)
+    if "MUSHROOMS" in text.replace("MUSHROO∩¼é", "MUSHROOMS"):
+        hitKey('m')
+        time.sleep(0.1)
+    if "GREENS" in text:
+        hitKey('g')
+        time.sleep(0.1)
+    hitKey('enter')
+    time.sleep(0.1)
 
 def SaladTheManhattan(text):
     Snack('rcbomg')
-
-def SaladTheMix(text):
-    Snack('rcbo')
-
-def SaladTomatoRanch(text):
-    Snack('rcm')
-
-def SaladTheBigSalad(text):
-    Snack('cg')
-
-def SaladCheesyPeppers(text):
-    Snack('co')
-
-def SaladVerde(text):
-    Snack('rg')
 
 def ClassicSteak(text):
     shell.SendKeys('%')
@@ -1245,12 +1234,12 @@ cooking_list = ['The Gerstmann',
                 'The Red Dog',
                 'The Yellow Dog',
                 'The Classic Corn Dog',
-                'Plain Vanilla',
-                'Plain Chocolate',
-                'Vanilla and Chocolate',
+                'Trio of Delicious',
+                'Minty Deluxe',
                 'The Yin and Yang',
-                'Cherry Vanilla',
-                'Chocolate Sprinkles',
+                'Vanilla',
+                'Chocolate',
+                'Mint',
                 'The Sweet Twist',
                 'The Buttery Curves',
                 'Cinnamon Pretzel',
@@ -1258,14 +1247,10 @@ cooking_list = ['The Gerstmann',
                 'The Salty Knot',
                 'The Classic Pretzel',
                 'Golden Fried Chicken',
-                'Delicious Lite Sopapillas',
-                'Delicious Sopapillas',
-                'Lite Fast Fries',
-                'Lite Fries',
+                'Sopapillas',
                 'Mix Fries',
-                'Sea Fries',
-                'Sweetest Potato Fries',
                 'Fries',
+                'Hash Patties',
                 'Grey Tail Fish',
                 'The Brewsky',
                 'The Rich Brewsky',
@@ -1274,6 +1259,9 @@ cooking_list = ['The Gerstmann',
                 'Work Ticket (Rodents)',
                 'Work Ticket (Trash)',
                 'Coffee',
+                'Marzu',
+                'Serpent',
+                'Wine',
                 'Chicken Kabob',
                 'Kabobber',
                 'Meaty Kabob',
@@ -1288,10 +1276,9 @@ cooking_list = ['The Gerstmann',
                 'The Manhattan',
                 'The Mix',
                 'Tomato Ranch',
-                'The Big Salad',
                 'Cheesy Peppers',
-                'Salad Verde',
                 'Salad',
+                'Thousand',
                 'Ebi Special',
                 'Mixed Delicious',
                 'Ocean Plate',
@@ -1352,12 +1339,12 @@ cooking_dict = {'The Gerstmann':TheRedDog,
                 'The Red Dog':TheRedDog,
                 'The Yellow Dog':TheYellowDog,
                 'The Classic Corn Dog':TheClassicCornDog,
-                'Plain Vanilla':PlainVanilla,
-                'Plain Chocolate':PlainChocolate,
-                'Vanilla and Chocolate':VanillaAndChocolate,
-                'The Yin and Yang':YinAndYang,
-                'Cherry Vanilla':CherryVanilla,
-                'Chocolate Sprinkles':ChocolateSprinkles,
+                'Trio of Delicious':IceCreamTrio,
+                'Minty Deluxe':IceCreamMintyDeluxe,
+                'The Yin and Yang':IceCreamYinAndYang,
+                'Vanilla':IceCream,
+                'Chocolate':IceCream,
+                'Mint':IceCream,
                 'The Sweet Twist':TheSweetTwist,
                 'The Buttery Curves':TheButteryCurves,
                 'Cinnamon Pretzel':CinnamonPretzel,
@@ -1365,14 +1352,10 @@ cooking_dict = {'The Gerstmann':TheRedDog,
                 'The Salty Knot':TheSaltyKnot,
                 'The Classic Pretzel':TheClassicPretzel,
                 'Golden Fried Chicken':GoldenFriedChicken,
-                'Delicious Lite Sopapillas':LiteFries,
-                'Delicious Sopapillas':SweetFries,
-                'Lite Fast Fries':LiteFries,
-                'Lite Fries':LiteFries,
+                'Sopapillas':Fries,
                 'Mix Fries':MixFries,
-                'Sea Fries':SeaFries,
-                'Sweetest Potato Fries':SweetFries,
                 'Fries':Fries,
+                'Hash Patties':Fries,
                 'Grey Tail Fish':GreyTailFish,
                 'The Brewsky':TheBrewsky,
                 'The Rich Brewsky':TheBrewsky,
@@ -1381,24 +1364,26 @@ cooking_dict = {'The Gerstmann':TheRedDog,
                 'Work Ticket (Rodents)':WorkTicketRodents,
                 'Work Ticket (Trash)':WorkTicketTrash,
                 'Coffee':Coffee,
+                'Marzu':Wine,
+                'Serpent':Wine,
+                'Wine':Wine,
                 'Chicken Kabob':KabobChicken,
                 'Kabobber':Kabobber,
                 'Meaty Kabob':KabobMeaty,
                 'Pepper Kabob':KabobPepper,
                 'Red Kabob':KabobRed,
                 'Kabob':KabobClassic,
-                'Cheesy Leaves':SaladCheesyLeaves,
-                'Pepper Ranch':SaladPepperRanch,
-                'The Dry Greens':SaladTheDryGreens,
-                'The Dry Deluxe':SaladTheDryDeluxe,
-                'Kids Delight':SaladCheesyLeaves,
+                'Cheesy Leaves':Salad,
+                'Pepper Ranch':Salad,
+                'The Dry Greens':Salad,
+                'The Dry Deluxe':Salad,
+                'Kids Delight':Salad,
                 'The Manhattan':SaladTheManhattan,
-                'The Mix':SaladTheMix,
-                'Tomato Ranch':SaladTomatoRanch,
-                'The Big Salad':SaladTheBigSalad,
-                'Cheesy Peppers':SaladCheesyPeppers,
-                'Salad Verde':SaladVerde,
-                'Salad':SaladHouse,
+                'The Mix':Salad,
+                'Tomato Ranch':Salad,
+                'Cheesy Peppers':Salad,
+                'Salad':Salad,
+                'Thousand':Salad,
                 'Ebi Special':SushiEbiSpecial,
                 'Mixed Delicious':SushiMixedDelicious,
                 'Ocean Plate':SushiOceanPlate,
@@ -1502,7 +1487,7 @@ def compare_imagesCooking():
                 time.sleep(0.1)
                 grab()#grabs image for recipe
                 im = Image.open('box0.png')
-                text = image_to_string(im)
+                text = image_to_string(im,"eng")
                 print text
                 #possible match from cooking_list
                 for recipe in cooking_list:
@@ -1515,7 +1500,7 @@ def compare_imagesCooking():
                         #used for cooking recipes
                         cooking_numbers_new.append(number)
                         #search cooking_dict for the recipe then call that function which will execute the steps to the recipe and serve the customer
-                        cooking_dict[recipe]()
+                        cooking_dict[recipe](text.replace(" ",""))
                         del cooking_numbers_new[:] #used to clear list. otherwise it will get filed with numbers when I only want 1 in there at a time
 
 
@@ -1539,7 +1524,7 @@ def compare_images():
             time.sleep(0.1)
             grab()#grabs image for recipe
             im = Image.open('box0.png')
-            text = image_to_string(im).replace("(no ice)","no ice").replace(" wi"," w/").replace(" wl"," w/").upper().replace("FIAVOR","FLAVOR")
+            text = image_to_string(im,"eng").replace("(no ice)","no ice").replace(" wi"," w/").replace(" wl"," w/").upper().replace("FIAVOR","FLAVOR")
             print text
             #possible match from cooking_list
             for recipe in cooking_list:
@@ -1551,7 +1536,7 @@ def compare_images():
                     #used for cooking recipes
                     cooking_numbers.append(number)
                     #search cooking_dict for the recipe then call that function which will execute the steps to the recipe and serve the customer
-                    cooking_dict[recipe](text)
+                    cooking_dict[recipe](text.replace(" ",""))
                     del cooking_numbers[:] #used to clear list. otherwise it will get filed with numbers when I only want 1 in there at a time
                     #Maybe the break can optimize the search by ending the dictionary loop after it finds the right answer
                     break
