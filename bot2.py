@@ -105,9 +105,8 @@ def holdKeyCombo(key, key2, d):
     ReleaseKey(newKey2)
 
 def grab():
-    #grab2()
     #coordinates for text box where info is given about the order
-    box = (300, 550, 1015, 660)
+    box = (315, 550, 970, 645)
     img = ImageGrab.grab(box)
     img.save(os.getcwd() + '/box1.png', 'PNG')
     return img
@@ -819,10 +818,11 @@ cooking_dict = {'Corndog':CornDog,
                 'Citrus Steak':CitrusSteak,
                 'Check Out My Picture':ThumbsUp}
 
-numkeys = {'1':[0,  70, 30, 105], '2':[0, 115, 30, 150], '3':[0, 160, 30, 195], '4':[0, 200, 30, 235],
-           '5':[0, 250, 30, 290], '6':[0, 255, 30, 295], '7':[0, 300, 30, 340], '8':[0, 345, 30, 385]}
+numkeys = {'1':[20,  80, 50, 115], '2':[20, 125, 50, 160], '3':[20, 170, 50, 205], '4':[20, 210, 50, 245],
+           '5':[20, 260, 50, 300], '6':[20, 265, 50, 305], '7':[20, 310, 50, 350], '8':[20, 355, 50, 395]}
 
-stations = {'S1':[220, 15, 250, 30], 'S2':[301, 15, 331, 30], 'S3':[382, 15, 412, 30], 'S4':[463, 15, 493, 30]}
+stations = {'S1':[215, 15, 255, 30], 'S2':[306, 15, 336, 30],
+            'S3':[387, 15, 417, 30], 'S4':[468, 15, 498, 30]}
 
 #Need global counter for cooking_numbers. Since I will be cooking
 #multiple things at the same time each one will be associated with a different number
@@ -875,7 +875,7 @@ def compare_imagesCooking():
                 time.sleep(0.1)
                 grab()#grabs image for recipe
                 im = Image.open('box1.png')
-                text = image_to_string(im,"eng").upper().replace("DISH ES","DISHES").replace("DAG","DOG")
+                text = image_to_string(im,False).upper().replace("DISH ES","DISHES").replace("DAG","DOG")
                 print text
                 #possible match from cooking_list
                 for recipe in cooking_list:
@@ -911,8 +911,8 @@ def compare_images():
         for x in xrange(0, len(n2)):
             c += (x - avg) * (x - avg) * n2[x]
         stdev = math.sqrt(c / sum(n2))
-        #print station, stdev
-        if stdev < 210:
+        print station, stdev
+        if stdev < 215:
             holdKeyCombo('tab', station[1], 0.05)
             time.sleep(0.05)
             if station == 'S3' or station == 'S4':
@@ -959,7 +959,7 @@ def compare_images():
             time.sleep(0.1)
             grab()#grabs image for recipe
             im = Image.open('box1.png')
-            text = image_to_string(im,"eng").upper().replace("DISH ES","DISHES").replace("DAG","DOG")
+            text = image_to_string(im,False).upper().replace("DISH ES","DISHES").replace("DAG","DOG")
             print text
             #possible match from cooking_list
             for recipe in cooking_list:
