@@ -19,9 +19,6 @@ Requirements to test bot:
 - Once you changed all the hard coded image locations simply run bot_threading.py (bot_oop.py is completed yet)
 
 
-# Video of the bot in action
-https://vid.me/iquy
-
 Tested on python 2.7 on windows 7
 
 #TODO
